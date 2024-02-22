@@ -9,6 +9,16 @@ const getAllTask = async (req, res) => {
   }
 };
 
+const Addtask = async () => {
+  try {
+    const sql = await db.query(
+      "INSERT INTO todo_task (`Author`, `Content`) VALUES (?)"
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 // const addEmployee = async (req, res) => {
 //   try {
 //     const addEmp = await db.query(

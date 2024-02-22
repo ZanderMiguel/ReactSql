@@ -4,5 +4,6 @@ const routes = express.Router();
 const { getAllTask } = require("../Controller/taskController");
 
 routes.get("/", getAllTask);
+routes.post("/addtask");
 
-module.exports = routes;
+routes.module.exports = routes;
