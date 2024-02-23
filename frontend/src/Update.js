@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
   Paper,
@@ -9,21 +9,31 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-const AddTaskForm = () => {
-  const [date, setDate] = useState(null);
+const Update = () => {
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
 
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8081/api/task/read/${id}`)
+      .then((res) => {
+        const data = res.data[0];
+        setAuthor(data.Author);
+        setContent(data.Content);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const task = { author: author, content: content };
+    const values = { author: author, content: content };
 
     axios
-      .post("http://localhost:8081/api/task/addtask", task)
+      .put(`http://localhost:8081/api/task/update/${id}`, values)
       .then((res) => {
         console.log(res);
         navigate("/home");
@@ -83,4 +93,4 @@ const AddTaskForm = () => {
   );
 };
 
-export default AddTaskForm;
+export default Update;

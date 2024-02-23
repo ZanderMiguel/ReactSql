@@ -7,17 +7,12 @@ const db = require("./dbConnect");
 const TasksRouter = require("./Routes/Alltask");
 
 app.use(cors());
+app.use(express.json());
 
 //Middleware
 app.use("/api/task", TasksRouter);
 
-//Query and Listen to 8081 server
+//Query test and Listen to 8081 server
 db.query("SELECT * FROM todo_task")
-  .then((data) => {
-    const mydata = data[0];
-    console.log(mydata);
-    app.listen(8081, () => {
-      console.log(`Listening to PORT 8081`);
-    });
-  })
+  .then(() => app.listen("8081", () => console.log("success")))
   .catch((err) => console.log("Unsuccessful"));
